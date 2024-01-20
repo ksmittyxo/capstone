@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:capstone/journal_entries.dart';
+import 'package:capstone/home.dart';
 //import 'logic.dart';
 void main() {
   runApp(const MyApp());
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const JournalEntriesScreen(),
+      home: HomeScreen(),
     );
   }
 }
@@ -57,6 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: _incrementCounter,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
-      ),    );
+      ),
+    );
   }
 }

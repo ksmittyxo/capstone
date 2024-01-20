@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'database_service.dart';
 import 'journalmodel.dart';
 import 'package:uuid/uuid.dart';
-import 'package:intl/intl.dart';
 
 class JournalEntriesScreen extends StatefulWidget {
   const JournalEntriesScreen({Key? key}) : super(key: key);
