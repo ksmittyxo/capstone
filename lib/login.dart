@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:capstone/home.dart';
+import 'package:capstone/sign_up.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -70,6 +72,10 @@ class _LoginScreenState extends State<LoginScreen> {
         const SizedBox(height: 10),
         ElevatedButton(
           onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const HomeScreen()),
+            );
           },
           style: ElevatedButton.styleFrom(
             shape: const StadiumBorder(),
@@ -101,6 +107,10 @@ class _LoginScreenState extends State<LoginScreen> {
         const Text("Dont have an account? "),
         TextButton(
             onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const SignUpScreen()),
+              );
             },
             child: const Text("Sign Up", style: TextStyle(color: Colors.purple),)
         )

@@ -135,10 +135,7 @@ class _JournalEntriesScreenState extends State<JournalEntriesScreen> {
                   color: Colors.yellow[200],
                   margin: const EdgeInsets.all(15),
                   child: ListTile(
-                      title: Text(snapshot.data![index].title +
-                          ' - ' +
-                          snapshot.data![index].emotion +
-                          ' - ' + snapshot.data![index].date),
+                      title: Text('${snapshot.data![index].title} - ${snapshot.data![index].emotion} - ${snapshot.data![index].date}'),
                       subtitle: Text(snapshot.data![index].reflection),
                       trailing: SizedBox(
                         width: 100,
