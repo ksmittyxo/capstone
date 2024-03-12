@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'database_service.dart';
 import 'journalmodel.dart';
 import 'package:capstone/write_journal.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class JournalEntriesScreen extends StatefulWidget {
   const JournalEntriesScreen({super.key});
@@ -41,6 +42,8 @@ class JournalEntriesScreen extends StatefulWidget {
                     color: Colors.yellow[200],
                     margin: const EdgeInsets.all(15),
                     child: ListTile(
+                      leading: SvgPicture.string(
+                          snapshot.data![index].face),
                         title: Text('${snapshot.data![index].title} - ${snapshot.data![index].emotion} - ${snapshot.data![index].date}'),
                         subtitle: Text(snapshot.data![index].reflection),
                         trailing: SizedBox(

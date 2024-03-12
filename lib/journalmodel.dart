@@ -4,12 +4,14 @@ class JournalModel {
   final String title;
   final String reflection;
   final String emotion;
+  final String face;
   JournalModel({
     required this.id,
     required this.date,
     required this.title,
     required this.reflection,
     required this.emotion,
+    required this.face,
   });
 
   factory JournalModel.fromJson(Map<String, dynamic> data) => JournalModel(
@@ -18,6 +20,7 @@ class JournalModel {
     title: data['title'],
     reflection: data['reflection'],
     emotion: data['emotion'],
+    face: data['face'],
   );
 
   Map<String, dynamic> toMap() => {
@@ -25,6 +28,7 @@ class JournalModel {
     'date': date,
     'title': title,
     'reflection': reflection,
-    'emotion': emotion
+    'emotion': emotion,
+    'face': face
   };
 }

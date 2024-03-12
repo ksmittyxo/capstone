@@ -23,7 +23,7 @@ class DatabaseService {
   void _onCreate(Database db, int version) async {
     await db.execute(
         'CREATE TABLE Journals(id TEXT PRIMARY KEY, title TEXT, date TEXT, '
-            'reflection TEXT, emotion TEXT)');
+            'reflection TEXT, emotion TEXT, face TEXT)');
     log('TABLE CREATED');
   }
   Future<List<JournalModel>> getJournals() async {
@@ -37,15 +37,15 @@ class DatabaseService {
   Future<void> insertJournal(JournalModel journal) async {
     final db = await _databaseService.database;
     var data = await db.rawInsert(
-        'INSERT INTO Journals(id, date, title, reflection, emotion) VALUES(?,?,?,?,?)',
-        [journal.id, journal.date, journal.title, journal.reflection, journal.emotion]);
+        'INSERT INTO Journals(id, date, title, reflection, emotion, face) VALUES(?,?,?,?,?,?)',
+        [journal.id, journal.date, journal.title, journal.reflection, journal.emotion, journal.face]);
     log('inserted $data');
   }
   Future<void> editJournal(JournalModel journal) async {
     final db = await _databaseService.database;
     var data = await db.rawUpdate(
-        'UPDATE Journals SET title=?,reflection=?,emotion=? WHERE ID=?',
-        [journal.title, journal.reflection, journal.emotion, journal.id]);
+        'UPDATE Journals SET title=?,reflection=?,emotion=?,face=? WHERE ID=?',
+        [journal.title, journal.reflection, journal.emotion, journal.face, journal.id]);
     log('updated $data');
   }
   Future<void> deleteJournal(String id) async {
