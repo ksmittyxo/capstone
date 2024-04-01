@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:flutter/cupertino.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'journalmodel.dart';
@@ -52,5 +53,23 @@ class DatabaseService {
     final db = await _databaseService.database;
     var data = await db.rawDelete('DELETE from Journals WHERE id=?', [id]);
     log('deleted $data');
+  }
+  Future<int> countEmotionUse(String emotion) async {
+    final db = await _databaseService.database;
+    var data = await db.rawQuery(
+      'SELECT COUNT(?) FROM Journals WHERE emotion =?',
+      [emotion, emotion]);
+    var count = Sqflite.firstIntValue(data);
+    if (count != null) {
+      return count;
+    } else {
+      return 0;
+    }
+  }
+  Future<List<Iterable<String>>> datesEmotionUsed(String emotion) async {
+    final db = await _databaseService.database;
+    var data = await db.rawQuery('SELECT date FROM Journals WHERE emotion =?', [emotion]);
+    print(data);
+    return List.generate(data.length, (index) => data[index].keys);
   }
 }

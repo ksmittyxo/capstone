@@ -10,21 +10,22 @@ class JournalEntriesScreen extends StatefulWidget {
   @override
   State<JournalEntriesScreen> createState() => _JournalEntriesScreenState();
 }
-  class _JournalEntriesScreenState extends State<JournalEntriesScreen> {
-    final dbService = DatabaseService();
 
-    void deleteJournal(String id) {
-      dbService.deleteJournal(id);
-      setState(() {});
-    }
+class _JournalEntriesScreenState extends State<JournalEntriesScreen> {
+  final dbService = DatabaseService();
 
-    @override
-    Widget build(BuildContext context) {
-      return Scaffold(
-        appBar: AppBar(
-          title: const Text('Journal Entries'),
-        ),
-        body: FutureBuilder<List<JournalModel>>(
+  void deleteJournal(String id) {
+    dbService.deleteJournal(id);
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Journal Entries'),
+      ),
+      body: FutureBuilder<List<JournalModel>>(
             future: dbService.getJournals(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -42,11 +43,15 @@ class JournalEntriesScreen extends StatefulWidget {
                     color: Colors.yellow[200],
                     margin: const EdgeInsets.all(15),
                     child: ListTile(
-                      leading: SvgPicture.string(
-                          snapshot.data![index].face),
-                        title: Text('${snapshot.data![index].title} - ${snapshot.data![index].emotion} - ${snapshot.data![index].date}'),
+                        leading: SizedBox(
+                            width: 50,
+                            height: 50,
+                            child: SvgPicture.string(snapshot.data![index].face, width: 100)),
+                        title: Text(
+                            '${snapshot.data![index].title} - ${snapshot.data![index].emotion} - ${snapshot.data![index].date}'),
                         subtitle: Text(snapshot.data![index].reflection),
                         trailing: SizedBox(
+                          height: 100,
                           width: 100,
                           child: Row(
                             children: [
@@ -69,16 +74,15 @@ class JournalEntriesScreen extends StatefulWidget {
                 child: Text('No Journal Entries found'),
               );
             }),
-        floatingActionButton: FloatingActionButton(
-            child: const Icon(Icons.add),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const WriteJournalScreen()),
-              );
-            }
-        ),
-      );
-    }
+      floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.add),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const WriteJournalScreen()),
+            );
+          }),
+    );
   }
-
+}

@@ -2,6 +2,7 @@ import 'package:capstone/display_journals.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:capstone/write_journal.dart';
+import 'package:capstone/chart.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -77,19 +78,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         const JournalEntriesScreen(),
-        // messages
-        Card(
-          shadowColor: Colors.transparent,
-          margin: const EdgeInsets.all(8.0),
-          child: SizedBox.expand(
-            child: Center(
-              child: Text(
-                'Chart',
-                style: theme.textTheme.titleLarge,
-              ),
-            ),
-          ),
-        ),
+        // chart
+        const ChartScreen(),
       ][currentPageIndex],
     );
   }
