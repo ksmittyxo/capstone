@@ -57,8 +57,8 @@ class DatabaseService {
   Future<int> countEmotionUse(String emotion) async {
     final db = await _databaseService.database;
     var data = await db.rawQuery(
-      'SELECT COUNT(?) FROM Journals WHERE emotion =?',
-      [emotion, emotion]);
+      'SELECT COUNT(emotion) FROM Journals WHERE emotion =?',
+      [emotion]);
     var count = Sqflite.firstIntValue(data);
     if (count != null) {
       return count;
@@ -66,18 +66,34 @@ class DatabaseService {
       return 0;
     }
   }
-
-  // maybe change this to be SELECT * FROM Journals WHERE emotion =? and then in
-  // the chart code iterate though the list of journals to get the dates from each
-  // journal entry?? could be inefficient though if the emotion has been used many times
-  Future<List<Iterable<String>>> datesEmotionUsed2(String emotion) async {
+  Future<int> timesUsedSinceDate(String emotion, String date) async {
     final db = await _databaseService.database;
-    var data = await db.rawQuery(
-        'SELECT date FROM Journals WHERE emotion =?', [emotion]);
-    print(data);
-    return List.generate(data.length, (index) => data[index].keys);
+    var data = await db.rawQuery('SELECT COUNT(emotion) FROM Journals WHERE emotion =? AND date >?', [emotion, date]);
+    var count = Sqflite.firstIntValue(data);
+    if (count != null) {
+      return count;
+    } else {
+      return 0;
+    }
   }
-
+  Future<int> timesUsedWithinDates(String emotion, String start, String end) async {
+    final db = await _databaseService.database;
+    var data = await db.rawQuery('SELECT COUNT(emotion) FROM Journals WHERE emotion =? AND date BETWEEN ? AND ?',
+        [emotion, start, end]);
+    var count = Sqflite.firstIntValue(data);
+    if (count != null) {
+      return count;
+    } else {
+      return 0;
+    }
+  }
+  Future<List<JournalModel>> datesEmotionUsed(String emotion) async {
+    final db = await _databaseService.database;
+    var data = await db.rawQuery('SELECT * from Journals WHERE emotion =?', [emotion]);
+    List<JournalModel> journals =
+    List.generate(data.length, (index) => JournalModel.fromJson(data[index]));
+    return journals;
+  }
   Future<List<JournalModel>> getJournalsFromDate(String date) async {
     final db = await _databaseService.database;
     var data = await db.rawQuery('SELECT * FROM Journals WHERE date =?', [date]);
