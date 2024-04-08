@@ -23,7 +23,7 @@ class _WriteJournalScreenState extends State<WriteJournalScreen> {
   final emotionController = TextEditingController();
   String face = '';
   bool filledSelected = false;
-  final dateFormat = DateFormat('yMd');
+  final dateFormat = DateFormat.yMd();
   void showBottomSheet(String functionTitle, Function()? onPressed) {
     showModalBottomSheet(
         context: context,
@@ -146,95 +146,6 @@ class _WriteJournalScreenState extends State<WriteJournalScreen> {
     setState(() {});
   }
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     resizeToAvoidBottomInset: true,
-  //     appBar: AppBar(
-  //       title: const Text(
-  //         'New Entry',
-  //         textAlign: TextAlign.center,
-  //         style: TextStyle(fontSize: 60),
-  //       ),
-  //       toolbarHeight: 100,
-  //     ),
-  //     body: SingleChildScrollView(
-  //       scrollDirection: Axis.vertical,
-  //       child: Column(
-  //         mainAxisSize: MainAxisSize.min,
-  //         children: [
-  //           TextField(
-  //             controller: titleController,
-  //             decoration: const InputDecoration(hintText: 'Title'),
-  //           ),
-  //           const Divider(),
-  //           Container(
-  //             margin: const EdgeInsets.symmetric(vertical: 20),
-  //             height: 100,
-  //             width: 100,
-  //             constraints: const BoxConstraints(maxWidth: 100),
-  //             child: FutureBuilder<List<StoreFaces>>(
-  //               future: faceDbService.getFaces(),
-  //               builder: (context, snapshot) {
-  //                 if (snapshot.connectionState == ConnectionState.waiting) {
-  //                   return const Center(child: CircularProgressIndicator());
-  //                 }
-  //                 if (snapshot.hasData) {
-  //                   if (snapshot.data!.isEmpty) {
-  //                     return const Text('no faces');
-  //                   }
-  //                   return SizedBox(
-  //                       height: 500,
-  //                       child: ListView.builder(
-  //                         shrinkWrap: true,
-  //                         scrollDirection: Axis.horizontal,
-  //                         itemCount: snapshot.data!.length,
-  //                         itemBuilder: (context, index) => SizedBox(
-  //                             height: 300,
-  //                             child: IconButton(
-  //                               icon: SvgPicture.string(snapshot.data![index].svg),
-  //                               onPressed: () {},
-  //                             )),
-  //                       ));
-  //                 }
-  //                 return const Text('no faces');
-  //               },
-  //             ),
-  //           ),
-  //           ElevatedButton(
-  //             child: const Text('New'),
-  //             onPressed: () {
-  //               Navigator.push(
-  //                 context,
-  //                 MaterialPageRoute(
-  //                     builder: (context) => const EmotionScreen()),
-  //               );
-  //             },
-  //           ),
-  //           const Divider(),
-  //           TextField(
-  //             controller: emotionController,
-  //             decoration: const InputDecoration(
-  //                 hintText: 'What emotion are you feeling right now?'),
-  //           ),
-  //           const Divider(),
-  //           TextField(
-  //             controller: reflectionController,
-  //             decoration: const InputDecoration(
-  //                 hintText: 'Reflect on your emotions...'),
-  //             minLines: 5,
-  //             maxLines: 7,
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  //     floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-  //     floatingActionButton: FloatingActionButton.extended(
-  //       label: const Text('Finish Entry'),
-  //       onPressed: () {},
-  //     ),
-  //   );
-  // }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -274,21 +185,21 @@ class _WriteJournalScreenState extends State<WriteJournalScreen> {
                         return const Text('no faces');
                       }
                       return ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: snapshot.data!.length,
-                          itemBuilder: (context, index) => SizedBox(
-                                width: 50,
-                                height: 50,
-                                  child: IconButton(
-                                    icon: SvgPicture.string(
-                                        snapshot.data![index].svg),
-                                    onPressed: () {
-                                      emotionController.text = snapshot.data![index].emotion;
-                                      face = snapshot.data![index].svg;
-                                    },
-                                  )
-                                ),
-                              );
+                        scrollDirection: Axis.horizontal,
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, index) => SizedBox(
+                            width: 50,
+                            height: 50,
+                            child: IconButton(
+                              icon:
+                                  SvgPicture.string(snapshot.data![index].svg),
+                              onPressed: () {
+                                emotionController.text =
+                                    snapshot.data![index].emotion;
+                                face = snapshot.data![index].svg;
+                              },
+                            )),
+                      );
                     }
                     return const Text('no faces');
                   },

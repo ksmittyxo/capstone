@@ -68,9 +68,11 @@ class DatabaseService {
   }
   Future<int> timesUsedSinceDate(String emotion, String date) async {
     final db = await _databaseService.database;
-    var data = await db.rawQuery('SELECT COUNT(emotion) FROM Journals WHERE emotion =? AND date >?', [emotion, date]);
+    var data = await db.rawQuery('SELECT COUNT(*) FROM Journals WHERE emotion =? AND date >= ?', [emotion, date]);
     var count = Sqflite.firstIntValue(data);
     if (count != null) {
+      print(date);
+      print(count);
       return count;
     } else {
       return 0;
@@ -78,7 +80,7 @@ class DatabaseService {
   }
   Future<int> timesUsedWithinDates(String emotion, String start, String end) async {
     final db = await _databaseService.database;
-    var data = await db.rawQuery('SELECT COUNT(emotion) FROM Journals WHERE emotion =? AND date BETWEEN ? AND ?',
+    var data = await db.rawQuery('SELECT COUNT(*) FROM Journals WHERE emotion =? AND date BETWEEN ? AND ?',
         [emotion, start, end]);
     var count = Sqflite.firstIntValue(data);
     if (count != null) {
@@ -100,6 +102,7 @@ class DatabaseService {
     List<JournalModel> journals =
     List.generate(data.length, (index) => JournalModel.fromJson(data[index]));
     print(journals.length);
+    print(date);
     return journals;
   }
 }

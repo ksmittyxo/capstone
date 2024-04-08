@@ -16,9 +16,7 @@ class _JournalEntriesScreenState extends State<JournalEntriesScreen> {
   var date = DateTime.now();
   final dbService = DatabaseService();
   final titleDateFormat = DateFormat.yMMMMd('en_US');
-  final journalDateFormat = DateFormat('yMd');
-  // String journalDate = DateFormat.yMd().format(DateTime.now());
-  // String calendarDate = DateFormat.yMMMMd('en_US').format(DateTime.now());
+  final journalDateFormat = DateFormat.yMd();
 
   void deleteJournal(String id) {
     dbService.deleteJournal(id);
@@ -66,7 +64,7 @@ class _JournalEntriesScreenState extends State<JournalEntriesScreen> {
                                 height: 50,
                                 child: SvgPicture.string(snapshot.data![index].face, width: 100)),
                             title: Text(
-                                '${snapshot.data![index].title} - ${snapshot.data![index].emotion} - ${snapshot.data![index].date}'),
+                                '${snapshot.data![index].title} - ${snapshot.data![index].emotion}'),
                             subtitle: Text(snapshot.data![index].reflection),
                             trailing: SizedBox(
                               height: 100,
