@@ -20,10 +20,10 @@ class _ChartScreenState extends State<ChartScreen> {
   String info = '';
   int number = -1;
   var date =
-      DateFormat.yMd().format(DateTime.now().subtract(const Duration(days: 7)));
-  var startDate = DateFormat.yMd()
+  DateFormat('MM/dd/yyyy').format(DateTime.now().subtract(const Duration(days: 7)));
+  var startDate = DateFormat('MM/dd/yyyy')
       .format(DateTime.now().subtract(const Duration(days: 30)));
-  var endDate = DateFormat.yMd().format(DateTime.now());
+  var endDate = DateFormat('MM/dd/yyyy').format(DateTime.now());
 
   int dropdownValue = 7;
 
@@ -31,6 +31,33 @@ class _ChartScreenState extends State<ChartScreen> {
 
   final faceDbService = FaceDatabaseService();
   final dbService = DatabaseService();
+
+  final startDateController = TextEditingController();
+  final endDateController = TextEditingController();
+
+  DateTimeRange? _selectedDates;
+
+  Future _showSelectDatePicker() async {
+    final result = await showDateRangePicker(
+      initialEntryMode: DatePickerEntryMode.input,
+      context: context,
+      initialDateRange: _selectedDates,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+    );
+
+    if (result != null) {
+      setState(() {
+        _selectedDates = result;
+      });
+    }
+  }
+
+  String _formatDateToString(DateTime? date) {
+    if (date == null) return '-';
+
+    return '${date.month}/${date.day}/${date.year}';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -142,7 +169,11 @@ class _ChartScreenState extends State<ChartScreen> {
 
           //times the emotion has been used in the past __ days
           SizedBox(
-            child: Wrap(spacing: 10.0, direction: Axis.horizontal, children: [
+            child: Wrap(
+                spacing: 5.0,
+                direction: Axis.horizontal,
+                alignment: WrapAlignment.center,
+                children: [
               const Text(
                 'In the last ',
                 textAlign: TextAlign.center,
@@ -164,8 +195,14 @@ class _ChartScreenState extends State<ChartScreen> {
                       value: value, label: value.toString());
                 }).toList(),
               ),
+              const Text('days', style: TextStyle(fontSize: 20)),
+              const Text('you', style: TextStyle(fontSize: 20)),
+              const Text('have', style: TextStyle(fontSize: 20)),
+              const Text('felt', style: TextStyle(fontSize: 20)),
+              const Text('this', style: TextStyle(fontSize: 20)),
+              const Text('emotion', style: TextStyle(fontSize: 20)),
               FutureBuilder<int>(
-                future: dbService.timesUsedSinceDate(info, DateFormat.yMd().format(DateTime.now().subtract(Duration(days: dropdownValue)))),
+                future: dbService.timesUsedSinceDate(info, DateFormat('MM/dd/yyyy').format(DateTime.now().subtract(Duration(days: dropdownValue)))),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
@@ -173,25 +210,23 @@ class _ChartScreenState extends State<ChartScreen> {
                   if (snapshot.hasData) {
                     if (snapshot.data == 0) {
                       print(dropdownValue);
-                      return const Center(
-                        child: Text(
-                          ' days you have felt this emotion 0 times\n',
+                      return const Text(
+                          '0 times.\n',
                           style: TextStyle(
                             fontSize: 20,
                           ),
-                        ),
-                      );
+                        );
                     } else {
                       if (snapshot.data == 1) {
                         return Text(
-                          ' days you have felt this emotion ${snapshot.data} time.\n',
+                          ' ${snapshot.data} time.\n',
                           style: const TextStyle(
                             fontSize: 20,
                           ),
                         );
                       } else {
                         return Text(
-                          ' days you have felt this emotion ${snapshot.data} times.\n',
+                          ' ${snapshot.data} times.\n',
                           style: const TextStyle(
                             fontSize: 20,
                           ),
@@ -201,7 +236,7 @@ class _ChartScreenState extends State<ChartScreen> {
                   }
                   return const Center(
                     child: Text(
-                      ' days you have felt this emotion 0 times.\n',
+                      ' 0 times.\n',
                       style: TextStyle(
                         fontSize: 20,
                       ),
@@ -213,65 +248,53 @@ class _ChartScreenState extends State<ChartScreen> {
           ),
 
           // times emotion has been used from __ to __
+          Center(
+            child: ElevatedButton(
+              onPressed: _showSelectDatePicker,
+              child: const Text('date range'),
+            ),
+          ),
           SizedBox(
               child: Wrap(
+                spacing: 5.0,
+                direction: Axis.horizontal,
+                alignment: WrapAlignment.center,
             children: [
-              const Text('Between ',
-                style: TextStyle(
-                  fontSize: 20,
-                ),
-              ),
-              SizedBox(
-                width: 100,
-                child: TextField(
-                  decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    hintText: startDate,
-                  ),
-                ),
-              ),
-              const Text(' and ',
-                style: TextStyle(
-                  fontSize: 20,
-                ),
-              ),
-              SizedBox(
-                width: 100,
-                child: TextField(
-                  decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    hintText: endDate,
-                  ),
-                ),
-              ),
+              const Text('Between', style: TextStyle(fontSize: 20)),
+              Text(_formatDateToString(_selectedDates?.start), style: const TextStyle(fontSize: 20)),
+              const Text('and', style: TextStyle(fontSize: 20)),
+              Text(_formatDateToString(_selectedDates?.end), style: const TextStyle(fontSize: 20)),
+              const Text('you', style: TextStyle(fontSize: 20)),
+              const Text('have', style: TextStyle(fontSize: 20)),
+              const Text('felt', style: TextStyle(fontSize: 20)),
+              const Text('this', style: TextStyle(fontSize: 20)),
+              const Text('emotion', style: TextStyle(fontSize: 20)),
               FutureBuilder<int>(
                 future:
-                    dbService.timesUsedWithinDates(info, startDate, endDate),
+                    dbService.timesUsedWithinDates(info, _formatDateToString(_selectedDates?.start), _formatDateToString(_selectedDates?.end)),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
                   }
                   if (snapshot.hasData) {
                     if (snapshot.data == 0) {
-                      return const Center(
-                        child: Text(
-                          ' you have felt this emotion 0 times.\n',
+                      return const Text(
+                          ' 0 times.\n',
                           style: TextStyle(
                             fontSize: 20,
                           ),
-                        ),
-                      );
+                        );
                     } else {
                       if (snapshot.data == 1) {
                         return Text(
-                          ' you have felt this emotion ${snapshot.data} time.\n',
+                          '  ${snapshot.data} time.\n',
                           style: const TextStyle(
                             fontSize: 20,
                           ),
                         );
                       } else {
                         return Text(
-                          ' you have felt this emotion ${snapshot.data} times.\n',
+                          '  ${snapshot.data} times.\n',
                           style: const TextStyle(
                             fontSize: 20,
                           ),
@@ -281,7 +304,7 @@ class _ChartScreenState extends State<ChartScreen> {
                   }
                   return const Center(
                     child: Text(
-                      ' you have used this emotion 0 times.\n',
+                      ' 0 times.\n',
                       style: TextStyle(
                         fontSize: 20,
                       ),
@@ -290,7 +313,11 @@ class _ChartScreenState extends State<ChartScreen> {
                 },
               )
             ],
-          ))
+          )),
+          // Text('Start Date: '
+          //     '${_formatDateToString(_selectedDates?.start)} '
+          //     'End Date: '
+          //     '${_formatDateToString(_selectedDates?.end)}'),
         ],
       ),
     ));

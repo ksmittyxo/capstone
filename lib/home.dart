@@ -47,11 +47,11 @@ class _HomeScreenState extends State<HomeScreen> {
         indicatorColor: Colors.amber,
         selectedIndex: currentPageIndex,
         destinations: const <Widget>[
-          NavigationDestination(
-              selectedIcon: Icon(Icons.home),
-              icon: Icon(Icons.home_outlined),
-              label: 'Home',
-          ),
+          // NavigationDestination(
+          //     selectedIcon: Icon(Icons.home),
+          //     icon: Icon(Icons.home_outlined),
+          //     label: 'Home',
+          // ),
           NavigationDestination(
             selectedIcon: Icon(Icons.calendar_month),
             icon: Icon(Icons.calendar_month_outlined),
@@ -65,18 +65,18 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: <Widget>[
         //home
-        Card(
-          shadowColor: Colors.transparent,
-          margin: const EdgeInsets.all(8.0),
-          child: SizedBox.expand(
-            child: Center(
-              child: Text(
-                'Home',
-                style: theme.textTheme.titleLarge,
-              ),
-            ),
-          ),
-        ),
+        // Card(
+        //   shadowColor: Colors.transparent,
+        //   margin: const EdgeInsets.all(8.0),
+        //   child: SizedBox.expand(
+        //     child: Center(
+        //       child: Text(
+        //         'Home',
+        //         style: theme.textTheme.titleLarge,
+        //       ),
+        //     ),
+        //   ),
+        // ),
         const JournalEntriesScreen(),
         // chart
         const ChartScreen(),

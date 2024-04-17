@@ -21,9 +21,12 @@ class _WriteJournalScreenState extends State<WriteJournalScreen> {
   final titleController = TextEditingController();
   final reflectionController = TextEditingController();
   final emotionController = TextEditingController();
+  // remove this later!!!!!
+  final dateController = TextEditingController();
   String face = '';
   bool filledSelected = false;
-  final dateFormat = DateFormat.yMd();
+  // DateFormat.yMd()
+  final dateFormat = DateFormat('MM/dd/yyyy');
   void showBottomSheet(String functionTitle, Function()? onPressed) {
     showModalBottomSheet(
         context: context,
@@ -86,13 +89,16 @@ class _WriteJournalScreenState extends State<WriteJournalScreen> {
     showBottomSheet('Add Journal', () async {
       var journal = JournalModel(
           id: Uuid().v4(),
-          date: dateFormat.format(DateTime.now()),
+          // date: dateFormat.format(DateTime.now()),
+          date: dateController.text,
           title: titleController.text,
           reflection: reflectionController.text,
           emotion: emotionController.text,
           face: face);
       dbService.insertJournal(journal);
       setState(() {});
+      // remove this!!!!!
+      dateController.clear();
       titleController.clear();
       reflectionController.clear();
       emotionController.clear();
@@ -104,13 +110,16 @@ class _WriteJournalScreenState extends State<WriteJournalScreen> {
   void createJournal() {
     var journal = JournalModel(
         id: const Uuid().v4(),
-        date: dateFormat.format(DateTime.now()),
+        // date: dateFormat.format(DateTime.now()),
+        date: dateController.text,
         title: titleController.text,
         reflection: reflectionController.text,
         emotion: emotionController.text,
         face: face);
     dbService.insertJournal(journal);
     setState(() {
+      //remove this!!!!
+      dateController.clear();
       titleController.clear();
       reflectionController.clear();
       emotionController.clear();
@@ -228,7 +237,14 @@ class _WriteJournalScreenState extends State<WriteJournalScreen> {
                     hintText: 'Reflect on your emotions...'),
                 minLines: 5,
                 maxLines: 7,
-              )
+              ),
+              const Divider(),
+              TextField(
+                controller: dateController,
+                decoration: const InputDecoration(
+                  hintText: 'date',
+                ),
+              ),
             ],
           ),
         ),

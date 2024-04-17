@@ -54,6 +54,11 @@ class DatabaseService {
     var data = await db.rawDelete('DELETE from Journals WHERE id=?', [id]);
     log('deleted $data');
   }
+  Future<void> deleteAllJournals() async {
+    final db = await _databaseService.database;
+    var data = await db.rawDelete('DELETE FROM Journals');
+    log('deleted $data');
+  }
   Future<int> countEmotionUse(String emotion) async {
     final db = await _databaseService.database;
     var data = await db.rawQuery(
