@@ -43,7 +43,7 @@ class FaceDatabaseService {
     log('inserted $data');
   }
 
-  Future<void> editJournal(StoreFaces face) async {
+  Future<void> editFace(StoreFaces face) async {
     final db = await _faceDatabaseService.database;
     var data = await db.rawUpdate(
         'UPDATE Faces SET svg=?,emotion=? WHERE ID=?',
@@ -51,7 +51,7 @@ class FaceDatabaseService {
     log('updated $data');
   }
 
-  Future<void> deleteJournal(String id) async {
+  Future<void> deleteFace(String id) async {
     final db = await _faceDatabaseService.database;
     var data = await db.rawDelete('DELETE from Faces WHERE id=?', [id]);
     log('deleted $data');
