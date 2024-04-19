@@ -39,10 +39,10 @@ class _JournalEntriesScreenState extends State<JournalEntriesScreen> with Restor
       setState(() {
         _selectedDate.value = newSelectedDate;
         date = newSelectedDate;
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(
-              'Selected: ${_selectedDate.value.day}/${_selectedDate.value.month}/${_selectedDate.value.year}'),
-        ));
+        // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        //   content: Text(
+        //       'Selected: ${_selectedDate.value.day}/${_selectedDate.value.month}/${_selectedDate.value.year}'),
+        // ));
       });
     }
   }
@@ -96,7 +96,10 @@ class _JournalEntriesScreenState extends State<JournalEntriesScreen> with Restor
             });
           },
         ),
-        title: Text(titleDateFormat.format(date)),
+        title: Text(
+          titleDateFormat.format(date),
+          style: Theme.of(context).textTheme.headlineMedium,
+        ),
         actions: [
           // _deleteButton(),
           _calendarButton(),
@@ -111,8 +114,11 @@ class _JournalEntriesScreenState extends State<JournalEntriesScreen> with Restor
                   }
                   if (snapshot.hasData) {
                     if (snapshot.data!.isEmpty) {
-                      return const Center(
-                        child: Text('No Journal Entries found'),
+                      return Center(
+                        child: Text(
+                            'No Journal Entries found',
+                            style: Theme.of(context).textTheme.displaySmall,
+                        ),
                       );
                     }
                     return ListView.builder(
@@ -126,30 +132,35 @@ class _JournalEntriesScreenState extends State<JournalEntriesScreen> with Restor
                                 height: 50,
                                 child: SvgPicture.string(snapshot.data![index].face, width: 100)),
                             title: Text(
-                                '${snapshot.data![index].title} - ${snapshot.data![index].emotion}'),
-                            subtitle: Text(snapshot.data![index].reflection),
-                            trailing: SizedBox(
-                              height: 100,
-                              width: 100,
-                              child: Row(
-                                children: [
-                                  IconButton(
-                                    icon: const Icon(Icons.edit),
-                                    onPressed: () {},
-                                  ),
+                                '${snapshot.data![index].title} - ${snapshot.data![index].emotion}', style: Theme.of(context).textTheme.bodyMedium),
+                            subtitle: Text(snapshot.data![index].reflection, style: Theme.of(context).textTheme.bodySmall),
+                            trailing:
+                            // SizedBox(
+                            //   height: 100,
+                            //   width: 100,
+                            //   child: Row(
+                            //     children: [
+                                  // IconButton(
+                                  //   icon: const Icon(Icons.edit),
+                                  //   onPressed: () {},
+                                  // ),
                                   IconButton(
                                     icon: const Icon(Icons.delete),
                                     onPressed: () =>
                                         deleteJournal(snapshot.data![index].id),
                                   ),
-                                ],
-                              ),
-                            )),
+                            //     ],
+                            //   ),
+                            // )
+                        ),
                       ),
                     );
                   }
-                  return const Center(
-                    child: Text('No Journal Entries found'),
+                  return Center(
+                    child: Text(
+                      'No Journal Entries found',
+                      style: Theme.of(context).textTheme.displaySmall,
+                    ),
                   );
                 }),
       floatingActionButton: FloatingActionButton(

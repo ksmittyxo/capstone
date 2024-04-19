@@ -45,9 +45,10 @@ class _WriteJournalScreenState extends State<WriteJournalScreen> {
                 children: [
                   TextField(
                     controller: titleController,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       hintText: 'Title',
-                      border: OutlineInputBorder(),
+                      hintStyle: Theme.of(context).textTheme.displayMedium,
+                      border: const OutlineInputBorder(),
                     ),
                   ),
                   const SizedBox(
@@ -55,9 +56,10 @@ class _WriteJournalScreenState extends State<WriteJournalScreen> {
                   ),
                   TextField(
                     controller: emotionController,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
+                      hintStyle: Theme.of(context).textTheme.displayMedium,
                       hintText: 'Emotion',
-                      border: OutlineInputBorder(),
+                      border: const OutlineInputBorder(),
                     ),
                   ),
                   const SizedBox(
@@ -65,9 +67,10 @@ class _WriteJournalScreenState extends State<WriteJournalScreen> {
                   ),
                   TextField(
                     controller: reflectionController,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       hintText: 'Reflection',
-                      border: OutlineInputBorder(),
+                      hintStyle: Theme.of(context).textTheme.displayMedium,
+                      border: const OutlineInputBorder(),
                     ),
                     keyboardType: TextInputType.multiline,
                     minLines: 2,
@@ -160,10 +163,10 @@ class _WriteJournalScreenState extends State<WriteJournalScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           'New Entry',
           textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 60),
+          style: Theme.of(context).textTheme.headlineMedium,
         ),
         toolbarHeight: 100,
       ),
@@ -175,8 +178,9 @@ class _WriteJournalScreenState extends State<WriteJournalScreen> {
             children: [
               TextField(
                 controller: titleController,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   hintText: 'Title',
+                  hintStyle: Theme.of(context).textTheme.displayMedium,
                 ),
               ),
               const Divider(),
@@ -215,7 +219,7 @@ class _WriteJournalScreenState extends State<WriteJournalScreen> {
                 ),
               ),
               ElevatedButton(
-                child: const Text('New'),
+                child: Text('New', style: Theme.of(context).textTheme.displayMedium),
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -227,22 +231,27 @@ class _WriteJournalScreenState extends State<WriteJournalScreen> {
               const Divider(),
               TextField(
                 controller: emotionController,
-                decoration: const InputDecoration(
-                    hintText: 'What emotion are you feeling right now?'),
+                decoration: InputDecoration(
+                    hintText: 'What emotion are you feeling right now?',
+                    hintStyle: Theme.of(context).textTheme.displayMedium
+                ),
               ),
               const Divider(),
               TextField(
                 controller: reflectionController,
-                decoration: const InputDecoration(
-                    hintText: 'Reflect on your emotions...'),
+                decoration: InputDecoration(
+                    hintText: 'Reflect on your emotions...',
+                    hintStyle: Theme.of(context).textTheme.displayMedium
+                ),
                 minLines: 5,
                 maxLines: 7,
               ),
               const Divider(),
               TextField(
                 controller: dateController,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   hintText: 'date',
+                  hintStyle: Theme.of(context).textTheme.displayMedium
                 ),
               ),
             ],
@@ -251,7 +260,7 @@ class _WriteJournalScreenState extends State<WriteJournalScreen> {
       )),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton.extended(
-        label: const Text('Finish Entry'),
+        label: Text('Finish Entry', style: Theme.of(context).textTheme.displaySmall,),
         onPressed: () {
           createJournal();
         },

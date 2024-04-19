@@ -6,6 +6,7 @@ import 'package:capstone/sign_up.dart';
 import 'package:capstone/login.dart';
 import 'firebase_options.dart';
 import 'auth_gate.dart';
+import 'package:google_fonts/google_fonts.dart';
 //import 'logic.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,6 +23,46 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Capstone',
       theme: ThemeData(
+        navigationBarTheme: NavigationBarThemeData(
+            labelTextStyle: MaterialStateProperty.all(const TextStyle())),
+        textTheme: TextTheme(
+          // date title on display emotions page
+          headlineMedium: GoogleFonts.montserrat(
+            fontSize: 25,
+            fontWeight: FontWeight.w400
+          ),
+          // chart page
+          displayLarge: GoogleFonts.montserrat(
+              fontSize: 20,
+              fontWeight: FontWeight.w400
+          ),
+          // write journal entries page
+          displayMedium: GoogleFonts.montserrat(
+              fontSize: 17,
+              fontWeight: FontWeight.w400
+          ),
+          // no journal entries found
+          displaySmall: GoogleFonts.montserrat(
+              fontSize: 15,
+              fontWeight: FontWeight.w400
+          ),
+          // title of entry
+          bodyMedium: GoogleFonts.montserrat(
+              fontSize: 15,
+              fontWeight: FontWeight.w400
+          ),
+          // reflection of entry
+          bodySmall: GoogleFonts.montserrat(
+              fontSize: 13,
+              fontWeight: FontWeight.w400
+          ),
+          // labels for bottom nav bar
+          labelSmall: GoogleFonts.montserrat(
+              fontSize: 13,
+              fontWeight: FontWeight.w400,
+          ),
+        ),
+        // GoogleFonts.montserratTextTheme(ThemeData(brightness: Brightness.light).textTheme),
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue.shade100),
         useMaterial3: true,
       ),

@@ -421,7 +421,7 @@ class _EmotionScreenState extends State<EmotionScreen> {
       // onPopInvoked: _onPopInvoked(),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('New Emotion'),
+          title: Text('New Emotion', style: Theme.of(context).textTheme.headlineMedium),
         ),
         body: Stack(children: <Widget>[
           Align(
@@ -431,7 +431,7 @@ class _EmotionScreenState extends State<EmotionScreen> {
                 saveFace();
                 Navigator.of(context).pop();
               },
-              child: const Text('Save'),
+              child: Text('Save', style: Theme.of(context).textTheme.displaySmall,),
             ),
           ),
           Center(
@@ -440,6 +440,7 @@ class _EmotionScreenState extends State<EmotionScreen> {
               children: <Widget>[
                 TextField(
                   controller: emotionController,
+                  style: Theme.of(context).textTheme.displayMedium,
                 ),
                 getSVG()
               ],
