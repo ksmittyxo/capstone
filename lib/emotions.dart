@@ -27,6 +27,8 @@ class _EmotionScreenState extends State<EmotionScreen> {
   final emotionController = TextEditingController();
   final dbService = FaceDatabaseService();
 
+  bool error = false;
+
   @override
   void initState() {
     super.initState();
@@ -48,7 +50,7 @@ class _EmotionScreenState extends State<EmotionScreen> {
 
   final String svgHeader =
   '''<svg width="36" height="36" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">''';
-  String svgBase = ''' ''';
+  String svgBase = '''<path id="svg_1" d="m36,18c0,9.941 -8.059,18 -18,18s-18,-8.059 -18,-18s8.059,-18 18,-18s18,8.059 18,18" fill="#FFCC4D"/>''';
   String svgEyes = ''' ''';
   String svgMouth = ''' ''';
   String svgDetails = ''' ''';
@@ -421,6 +423,7 @@ class _EmotionScreenState extends State<EmotionScreen> {
       // onPopInvoked: _onPopInvoked(),
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
           title: Text('New Emotion', style: Theme.of(context).textTheme.headlineMedium),
         ),
         body: Stack(children: <Widget>[
@@ -428,8 +431,8 @@ class _EmotionScreenState extends State<EmotionScreen> {
             alignment: Alignment.topRight,
             child: ElevatedButton(
               onPressed: () {
-                saveFace();
-                Navigator.of(context).pop();
+                  saveFace();
+                  Navigator.of(context).pop();
               },
               child: Text('Save', style: Theme.of(context).textTheme.displaySmall,),
             ),
@@ -438,9 +441,19 @@ class _EmotionScreenState extends State<EmotionScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                TextField(
-                  controller: emotionController,
-                  style: Theme.of(context).textTheme.displayMedium,
+                SizedBox(
+                  width: 250,
+                  child: TextField(
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: 'How are you feeling?'
+                    ),
+                    controller: emotionController,
+                    style: Theme.of(context).textTheme.displayMedium,
+                  ),
+                ),
+                const SizedBox(
+                  height: 50,
                 ),
                 getSVG()
               ],

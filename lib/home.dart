@@ -17,6 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final ThemeData theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         actions: [
           IconButton(
             icon: const Icon(Icons.person),
@@ -25,6 +26,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 context,
                 MaterialPageRoute<ProfileScreen>(
                   builder: (context) => ProfileScreen(
+                    appBar: AppBar(
+                      backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+                    ),
                     actions: [
                       SignedOutAction((context) {
                         Navigator.of(context).pop();
@@ -58,8 +62,8 @@ class _HomeScreenState extends State<HomeScreen> {
             label: 'Entries',
           ),
           NavigationDestination(
-            icon: Icon(Icons.show_chart_outlined),
-            label: 'Chart',
+            icon: Icon(Icons.subject_outlined),
+            label: 'Summary',
             ),
         ],
       ),

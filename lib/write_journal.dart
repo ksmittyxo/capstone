@@ -92,16 +92,13 @@ class _WriteJournalScreenState extends State<WriteJournalScreen> {
     showBottomSheet('Add Journal', () async {
       var journal = JournalModel(
           id: Uuid().v4(),
-          // date: dateFormat.format(DateTime.now()),
-          date: dateController.text,
+          date: dateFormat.format(DateTime.now()),
           title: titleController.text,
           reflection: reflectionController.text,
           emotion: emotionController.text,
           face: face);
       dbService.insertJournal(journal);
       setState(() {});
-      // remove this!!!!!
-      dateController.clear();
       titleController.clear();
       reflectionController.clear();
       emotionController.clear();
@@ -113,16 +110,14 @@ class _WriteJournalScreenState extends State<WriteJournalScreen> {
   void createJournal() {
     var journal = JournalModel(
         id: const Uuid().v4(),
-        // date: dateFormat.format(DateTime.now()),
-        date: dateController.text,
+        // dateFormat.format(DateTime.now())
+        date: dateFormat.format(DateTime.now()),
         title: titleController.text,
         reflection: reflectionController.text,
         emotion: emotionController.text,
         face: face);
     dbService.insertJournal(journal);
     setState(() {
-      //remove this!!!!
-      dateController.clear();
       titleController.clear();
       reflectionController.clear();
       emotionController.clear();
@@ -163,6 +158,7 @@ class _WriteJournalScreenState extends State<WriteJournalScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(
           'New Entry',
           textAlign: TextAlign.center,
@@ -245,14 +241,6 @@ class _WriteJournalScreenState extends State<WriteJournalScreen> {
                 ),
                 minLines: 5,
                 maxLines: 7,
-              ),
-              const Divider(),
-              TextField(
-                controller: dateController,
-                decoration: InputDecoration(
-                  hintText: 'date',
-                  hintStyle: Theme.of(context).textTheme.displayMedium
-                ),
               ),
             ],
           ),

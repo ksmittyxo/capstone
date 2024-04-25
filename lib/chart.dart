@@ -32,7 +32,7 @@ class _ChartScreenState extends State<ChartScreen> {
 
   int dropdownValue = 7;
 
-  final List<int> days = [7, 30, 365];
+  final List<int> days = [7, 30];
 
   final faceDbService = FaceDatabaseService();
   final dbService = DatabaseService();
@@ -242,7 +242,7 @@ class _ChartScreenState extends State<ChartScreen> {
     return Center(
       child: ElevatedButton(
         onPressed: _showSelectDatePicker,
-        child: Text('date range', style: Theme.of(context).textTheme.displayLarge),
+        child: Text('choose date range', style: Theme.of(context).textTheme.displayLarge),
       ),
     );
   }
@@ -285,12 +285,12 @@ class _ChartScreenState extends State<ChartScreen> {
                   } else {
                     if (snapshot.data == 1) {
                       return Text(
-                          '  ${snapshot.data} time.\n',
+                          ' ${snapshot.data} time.\n',
                           style: Theme.of(context).textTheme.displayLarge
                       );
                     } else {
                       return Text(
-                          '  ${snapshot.data} times.\n',
+                          ' ${snapshot.data} times.\n',
                           style: Theme.of(context).textTheme.displayLarge
                       );
                     }
@@ -313,62 +313,64 @@ class _ChartScreenState extends State<ChartScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-        child: Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Column(
-        children: <Widget>[
-          _bigSvg(num, bigEmotionSvg),
-          Container(
-            margin: const EdgeInsets.symmetric(vertical: 20),
-            height: 50,
-            child: FutureBuilder<List<StoreFaces>>(
-              future: faceDbService.getFaces(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-                if (snapshot.hasData) {
-                  if (snapshot.data!.isEmpty) {
-                    num = -1;
-                    return const SizedBox(
-                      width: 60,
-                      height: 34,
-                    );
-                  }
-                  return ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (context, index) => SizedBox(
-                      width: 50,
-                      height: 50,
-                      child: IconButton(
-                        icon: SvgPicture.string(snapshot.data![index].svg),
-                        onPressed: () {
-                          setState(() {
-                            num = index;
-                            bigEmotionSvg = snapshot.data![index].svg;
-                            info = snapshot.data![index].emotion;
-                            faceId = snapshot.data![index].id;
-                          });
-                        },
-                      ),
-                    ),
-                  );
-                }
-                return const SizedBox(
-                  width: 60,
-                  height: 34,
-                );
-              },
+    return Scaffold(
+      body: Card(
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              children: <Widget>[
+                _bigSvg(num, bigEmotionSvg),
+                Container(
+                  margin: const EdgeInsets.symmetric(vertical: 20),
+                  height: 50,
+                  child: FutureBuilder<List<StoreFaces>>(
+                    future: faceDbService.getFaces(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                      if (snapshot.hasData) {
+                        if (snapshot.data!.isEmpty) {
+                          num = -1;
+                          return const SizedBox(
+                            width: 60,
+                            height: 34,
+                          );
+                        }
+                        return ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: snapshot.data!.length,
+                          itemBuilder: (context, index) => SizedBox(
+                            width: 50,
+                            height: 50,
+                            child: IconButton(
+                              icon: SvgPicture.string(snapshot.data![index].svg),
+                              onPressed: () {
+                                setState(() {
+                                  num = index;
+                                  bigEmotionSvg = snapshot.data![index].svg;
+                                  info = snapshot.data![index].emotion;
+                                  faceId = snapshot.data![index].id;
+                                });
+                              },
+                            ),
+                          ),
+                        );
+                      }
+                      return const SizedBox(
+                        width: 60,
+                        height: 34,
+                      );
+                    },
+                  ),
+                ),
+                _totalTimes(num),
+                _usedSinceDate(num),
+                _dateRangeButton(num),
+                _usedBetweenDates(num)
+              ],
             ),
-          ),
-          _totalTimes(num),
-          _usedSinceDate(num),
-          _dateRangeButton(num),
-          _usedBetweenDates(num)
-        ],
-      ),
-    ));
+          )),
+    );
   }
 }

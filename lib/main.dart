@@ -31,6 +31,10 @@ class MyApp extends StatelessWidget {
             fontSize: 25,
             fontWeight: FontWeight.w400
           ),
+          headlineSmall: GoogleFonts.montserrat(
+            fontSize: 30,
+            fontWeight: FontWeight.w400,
+          ),
           // chart page
           displayLarge: GoogleFonts.montserrat(
               fontSize: 20,
@@ -63,10 +67,15 @@ class MyApp extends StatelessWidget {
           ),
         ),
         // GoogleFonts.montserratTextTheme(ThemeData(brightness: Brightness.light).textTheme),
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue.shade100),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color.fromRGBO(244, 247, 255, 1),
+          tertiary: const Color.fromRGBO(244, 247, 255, 1),
+          background: const Color.fromRGBO(252, 251, 244, 1),
+          inversePrimary: const Color.fromRGBO(252, 251, 244, 1),
+        ),
         useMaterial3: true,
       ),
-      home: const HomeScreen(),
+      home: const AuthGate(),
     );
   }
 }

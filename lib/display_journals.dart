@@ -87,6 +87,7 @@ class _JournalEntriesScreenState extends State<JournalEntriesScreen> with Restor
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.chevron_left_outlined),
@@ -124,7 +125,7 @@ class _JournalEntriesScreenState extends State<JournalEntriesScreen> with Restor
                     return ListView.builder(
                       itemCount: snapshot.data!.length,
                       itemBuilder: (context, index) => Card(
-                        color: Colors.yellow[200],
+                        color: Theme.of(context).colorScheme.tertiary,
                         margin: const EdgeInsets.all(15),
                         child: ListTile(
                             leading: SizedBox(
